@@ -10,8 +10,6 @@ list_of_files=[
     ".github/workflows/.gitkeep",    
     f"src/components/__init__.py",
     f"src/components/register.py",
-    f"src/components/portal_a.py",
-    f"src/components/portal_b.py",
     f"src/components/portal_a_rid.py",
     f"src/components/portal_b_rid.py",
     "player_profiles/player_info.json"
