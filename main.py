@@ -1,30 +1,40 @@
+
 from logger import logging
+from exception import CustomException
 from src.components.register import *
-from src.components.portal_a_rid import *
+from portal_a import *
 from color import Color
+from spiral import draw_circle
 
 color = Color()
 
-print(color.RED + "**************WELCOME TO THE PORTALS OF DISORIENTATION**************" + color.RESET)
+draw_circle(10)
+print(color.RED +"  "*10+ "**************  WELCOME TO THE PORTALS OF DISORIENTATION  **************" + color.RESET)
 
 profile = Profile()
 profile.select_profile()
 
-profile_data = profile.load_profile(profile.choice)
-
-print(color.GREEN +"Profile choosen name: " + str(profile_data['Name']) + color.RESET)
-player_name = profile_data['Name']
-print(color.GREEN + profile_data['Name'] + "'s Hints left: " + str(profile_data['Hints']) + color.RESET)
-player_hints = profile_data['Hints']
-print(color.GREEN +profile_data['Name'] + "'s level: "+ str(profile_data['Level']) + color.RESET)
-player_level = profile_data['Level']
-print(color.GREEN + profile_data['Name'] + "'s health: " + str(profile_data['Health']) + color.RESET)
-player_health = profile_data['Health']
 
 
+class Player:
+    def __init__(self):
+        self.profile_data = profile.load_profile(profile.profile_selected)
+        self.player_name = self.profile_data['Name']
+        self.player_hints = self.profile_data['Hints']
+        self.player_level = self.profile_data['Level']
+        self.player_health = self.profile_data['Health']
+
+player = Player()
+
+def profile_details():
+    print(color.GREEN +"Profile choosen name: " + player.player_name + color.RESET)
+    print(color.GREEN + player.player_name  + "'s Hints left: " + str(player.player_hints) + color.RESET)
+    print(color.GREEN + player.player_name  + "'s level: "+ str(player.player_level ) + color.RESET)
+    print(color.GREEN + player.player_name  + "'s health: " + str(player.player_health ) + color.RESET)
+profile_details()
 
 def main_menu():
-    print(color.RED + "\n*********OPTIONS*********" + color.RESET)
+    print(color.RED +"  "*22+ "*********  OPTIONS  *********" + color.RESET)
     print(color.YELLOW+"\n 1. STORY MODE"+color.RESET)
     print(color.YELLOW+"\n 2. CHANGE PROFILE"+color.RESET)
     print(color.YELLOW+"\n 3. SETTINGS"+color.RESET)
@@ -32,6 +42,7 @@ def main_menu():
     case = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
     
     execute_case(case)
+    
 
 def execute_case(case):
     if case == 1:
@@ -46,19 +57,30 @@ def execute_case(case):
         main_menu()
 
 def story_mode():
-    print(color.RED + "\n*********OPTIONS*********" + color.RESET)
-    if player_level==1:
+    print(color.RED +"  " *22 + "*********  OPTIONS  *********" + color.RESET)
+    if player.player_level==1:
         print(color.YELLOW+"\n 1. NEW GAME"+ color.RESET)
         print(color.YELLOW+"\n 2. WAR GEAR"+ color.RESET)
         print(color.YELLOW+"\n 3. BACK"+ color.RESET)
+        new_case = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
+        execute_story_mode_case_new(new_case)
     else:
         print(color.YELLOW+"\n 1. NEW GAME"+ color.RESET)
         print(color.YELLOW+"\n 2. RESUME"+ color.RESET)
         print(color.YELLOW+"\n 3. WAR GEAR"+ color.RESET)
         print(color.YELLOW+"\n 4. BACK"+ color.RESET)
-    case = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
-    
-    execute_story_mode_case(case)
+        case = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
+        execute_story_mode_case(case)
+
+def execute_story_mode_case_new(new_case):
+    if new_case == 1:
+        new_game()
+    elif new_case == 2:
+        war_gear()
+    elif new_case == 3:
+        main_menu()
+    else:
+        story_mode()
 
 def execute_story_mode_case(case):
     if case == 1:
@@ -72,21 +94,37 @@ def execute_story_mode_case(case):
     else:
         story_mode()
 
-main_menu()
+
 
 
 def new_game():
-    print(color.RED+ "\n*********PORTALS*********"+color.RESET)
-    print(color.YELLOW+"1. Portal A"+color.RESET)
-    print(color.YELLOW+"2. Portal B"+color.RESET)
-    print(color.YELLOW+"3. Save and Quit"+color.RESET)
-    
-    portal_choice = int(input("Enter your choice: "))
+    try:
+        print(color.RED+ "  " *22 +"*********  PORTALS  *********"+color.RESET)
+        print(color.YELLOW+"1. Portal A"+color.RESET)
+        print(color.YELLOW+"2. Portal B"+color.RESET)
+        print(color.YELLOW+"3. Quit"+color.RESET)
+        portal_choice = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
 
-    if portal_choice == 1 or portal_choice == 2:
-        portal_level = player_level 
+        if portal_choice == 1:
+            print(color.RED+"  "*22 + "*********  WELCOME TO PORTAL A  *********"+color.RESET)
+            #player.player_level = 1
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health )
+        elif portal_choice == 2:
+            print(color.RED+"  "*22 + "*********  WELCOME TO PORTAL B  *********"+color.RESET)
+        elif portal_choice == 3:
+            new_game()
+        else:
+            print("\n Please enter correct choice")
 
-  '''  
+                
+
+    except Exception as e:
+        CustomException(e, sys)
+
+
+main_menu()        
+
+'''
 def resume():
     # Logic for resuming the game
 
@@ -153,8 +191,16 @@ def choose_portal(case):
     elif case == 2:
         portalb()
     else:
-        portala() '''
+        portala() 
+
+class Player:
+    def __init__(self, portal_level=1):
+        self.portal_level = portal_level
+
+player = Player()
+portal = Portal()
+play_level(player, portal)
 
 
-
+'''
 
