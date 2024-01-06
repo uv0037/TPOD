@@ -6,7 +6,10 @@ class Color:
         self.GREEN = '\033[92m'
         self.YELLOW = '\033[93m'
         self.BLUE = '\033[94m'
+        self.GREY = '\033[90m'
         self.RESET = '\033[0m'
+        self.ORANGE = '\033[33m'
+        self.PURPLE = '\033[35m'
 
 
 
@@ -24,5 +27,6 @@ def draw_circle(radius):
             else:
                 print('  ', end=' ')  # Empty space for outside the circle
         print()
+
 
 

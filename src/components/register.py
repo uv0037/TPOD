@@ -11,6 +11,8 @@ from src.utils import Color
 color = Color()
 
 class Profile:
+    def __init__(self) -> None:
+        pass
 
     def load_profiles(self):  
         try:
@@ -28,7 +30,6 @@ class Profile:
             filename = f"player_profiles/{profile_name}_profile.json"
             with open(filename, 'r') as file:
                 self.profile_data = json.load(file)
-            #print(f"Profile loaded for {self.profile_data}")
                 return self.profile_data
         except Exception as e:
             raise CustomException(e, sys)
@@ -51,53 +52,74 @@ class Profile:
             if not filepath.exists():
                 with open(filepath, 'w') as file:
                     json.dump(profile_data, file)
+                print(color.BLUE+"PROFILE CREATED, username - "+color.GREEN+f"{name}"+color.RESET)
                 logging.info(f"Created profile: {filepath}")
+                
             else:
+                print(color.RED+"\nUSER NAME ALREADY EXISTS")
+                print(color.BLUE+"Please create profile using a unique user name\n"+color.RESET)
                 logging.info(f"Profile already exists: {filepath}")
         except Exception as e:
             raise CustomException(e, sys)
 
     def select_profile(self):
         try:  
-            profiles = self.load_profiles()  
+            while True:
+                profiles = self.load_profiles() 
+                print("\n"+color.GREY+"*"*20+color.RESET)
+                print(color.YELLOW + " AVAILABLE PROFILES:" + color.RESET)
+                print(color.GREY+"*"*20+color.RESET)
+                for index, profile in enumerate(profiles, start=1):
+                    print(color.GREEN + f"{index}. {profile}" + color.RESET)
+    
+                print(color.YELLOW + "\n1. SELECT PROFILE" + color.RESET)
+                print(color.YELLOW + "2. CREATE NEW PROFILE" + color.RESET)
+                print(color.YELLOW + "3. DELETE PROFILE" + color.RESET)
+                print(color.YELLOW + "4. QUIT" + color.RESET)
+                try:
+                    self.choice = int(input(color.BLUE + "\nSelect your choice: " + color.RESET))
+                    if self.choice == 1:
+                        self.profile_selected = input(color.BLUE + "\nSelect your user name: " + color.RESET)
+                        if self.profile_selected in profiles:
+                            print(color.BLUE+f"\nLoading profile: "+color.GREEN+f"{self.profile_selected}"+color.RESET)
+                            self.load_profile(self.profile_selected)
+                            break
+                        else:
+                            print(color.RED+"\nProfile not found or please check the profile name"+color.RESET)
+                            print(color.BLUE+"Redirecting you to main menu"+color.RESET)
+                            print(color.GREY+"**"*20+"\n"+color.RESET)
+                            continue
+                    elif self.choice == 2:
+                        self.new_profile = input(color.BLUE + "\nEnter your user name: " + color.RESET)
+                        self.create_new_profile(self.new_profile)
+                        continue
+                    elif self.choice == 3:
+                        self.delete_profile = input(color.BLUE + "\nEnter the profile name to be deleted: " + color.RESET)
+                        self.delete_file(self.delete_profile)
+                        continue
+                    elif self.choice == 4:
+                        exit()
+                    else:
+                        print(color.BLUE + "\nPlease enter correct choice" + color.RESET)
+                        continue
+                except ValueError:
+                    print(color.RED+"\nPlease enter a valid number for the choice.")
+                    print(color.BLUE+"Redirecting you to main menu"+color.RESET)
+                    print(color.GREY+"**"*20+"\n"+color.RESET)
 
-            print(color.YELLOW+"Available Profiles:"+color.RESET)
-            for index, profile in enumerate(profiles, start=1):
-                print(color.GREEN+ f"{index}. {profile}" + color.RESET)
-        
-            print(color.YELLOW+"\n 1. Select profile"+color.RESET)
-            print(color.YELLOW+"\n 2. Create new profile"+color.RESET)
-            print(color.YELLOW+"\n 3. Delete profile"+color.RESET)
-            print(color.YELLOW+"\n 4. Quit"+color.RESET)
-            self.choice = int(input(color.BLUE+"\nSelect you choice: "+color.RESET))
-            if self.choice==1:
-                self.profile_selected = input(color.BLUE+"\nSelect your profile name: "+color.RESET)
-                if self.profile_selected in profiles:
-                    print(f"\nLoading profile: {self.profile_selected} ")
-                    self.load_profile(self.profile_selected)
-                else:
-                    print("Profile not found") 
-            elif self.choice==2:
-                self.new_profile = input(color.BLUE+"\nEnter your profile name: "+color.RESET)
-                self.create_new_profile(self.new_profile)
-                self.select_profile()
-            elif self.choice==3:
-                self.delete_profile = input(color.BLUE+"\nEnter the profile name to be deleted: "+color.RESET)
-                self.delete_json_file(self.delete_profile)
-                self.select_profile()
-            else:
-                exit()
         except Exception as e:
             raise CustomException(e, sys)
-              
 
-    def delete_json_file(self, filename):
+
+      
+
+    def delete_file(self, filename):
         try:
             file_path = f"player_profiles/{filename}_profile.json"
 
             if os.path.exists(file_path) and file_path.endswith('_profile.json'):
                 os.remove(file_path)
-                print(f"Profile deleted '{filename}' deleted successfully.")
+                print(color.GREEN+f"\nProfile deleted '{filename}' deleted successfully."+color.RESET)
                 logging.info(f"Profile deleted '{filename}' deleted successfully.")
             else:
                 print(f"Profile - '{filename}' not found.")
@@ -124,7 +146,45 @@ class Profile:
             raise CustomException(e, sys)
 
 
+'''
 
+    def select_profile(self):
+        try:  
+            profiles = self.load_profiles()  
+
+            print(color.YELLOW+"Available Profiles:"+color.RESET)
+            for index, profile in enumerate(profiles, start=1):
+                print(color.GREEN+ f"{index}. {profile}" + color.RESET)
+        
+            print(color.YELLOW+"\n 1. Select profile"+color.RESET)
+            print(color.YELLOW+"\n 2. Create new profile"+color.RESET)
+            print(color.YELLOW+"\n 3. Delete profile"+color.RESET)
+            print(color.YELLOW+"\n 4. Quit"+color.RESET)
+            self.choice = int(input(color.BLUE+"\nSelect you choice: "+color.RESET))
+            if self.choice==1:
+                self.profile_selected = input(color.BLUE+"\nSelect your profile name: "+color.RESET)
+                if self.profile_selected in profiles:
+                    print(f"\nLoading profile: {self.profile_selected} ")
+                    self.load_profile(self.profile_selected)
+                else:
+                    print("Profile not found or please check the profile name")
+                    self.select_profile()
+            elif self.choice==2:
+                self.new_profile = input(color.BLUE+"\nEnter your profile name: "+color.RESET)
+                self.create_new_profile(self.new_profile)
+                self.select_profile()
+            elif self.choice==3:
+                self.delete_profile = input(color.BLUE+"\nEnter the profile name to be deleted: "+color.RESET)
+                self.delete_json_file(self.delete_profile)
+                self.select_profile()
+            elif self.choice == 4:
+                exit()
+            else:
+                print(color.BLUE+"Please enter correct choice"+color.RESET)
+                self.select_profile()
+        except Exception as e:
+            raise CustomException(e, sys)
+''' 
 
         
         
