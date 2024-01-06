@@ -2,9 +2,8 @@
 from logger import logging
 from exception import CustomException
 from src.components.register import *
-from portal_a import *
-from color import Color
-from spiral import draw_circle
+from src.components.portal_a import *
+from src.utils import Color, draw_circle
 
 color = Color()
 
@@ -13,25 +12,24 @@ print(color.RED +"  "*10+ "**************  WELCOME TO THE PORTALS OF DISORIENTAT
 
 profile = Profile()
 profile.select_profile()
-
+profile_data = profile.load_profile(profile.profile_selected)
 
 
 class Player:
-    def __init__(self):
-        self.profile_data = profile.load_profile(profile.profile_selected)
-        self.player_name = self.profile_data['Name']
-        self.player_hints = self.profile_data['Hints']
-        self.player_level = self.profile_data['Level']
-        self.player_health = self.profile_data['Health']
+    def __init__(self, name, hints, level, health):
+        self.player_name = name
+        self.player_hints = hints
+        self.player_level = level
+        self.player_health = health
 
-player = Player()
+player = Player(profile_data['Name'],profile_data['Hints'],profile_data['Level'],profile_data['Health'])
 
-def profile_details():
-    print(color.GREEN +"Profile choosen name: " + player.player_name + color.RESET)
-    print(color.GREEN + player.player_name  + "'s Hints left: " + str(player.player_hints) + color.RESET)
-    print(color.GREEN + player.player_name  + "'s level: "+ str(player.player_level ) + color.RESET)
-    print(color.GREEN + player.player_name  + "'s health: " + str(player.player_health ) + color.RESET)
-profile_details()
+def profile_details(name, hints, level, health):
+    print(color.GREEN +"Profile choosen name: " + name + color.RESET)
+    print(color.GREEN + player.player_name  + "'s Hints left: " + str(hints) + color.RESET)
+    print(color.GREEN + player.player_name  + "'s level: "+ str(level ) + color.RESET)
+    print(color.GREEN + player.player_name  + "'s health: " + str(health) + color.RESET)
+profile_details(player.player_name, player.player_hints, player.player_level, player.player_health)
 
 def main_menu():
     print(color.RED +"  "*22+ "*********  OPTIONS  *********" + color.RESET)
@@ -49,6 +47,10 @@ def execute_case(case):
         story_mode()
     elif case == 2:
         profile.select_profile()
+        profile_data = profile.load_profile(profile.profile_selected)
+        player_new = Player(profile_data['Name'],profile_data['Hints'],profile_data['Level'],profile_data['Health'])
+        profile_details(player_new.player_name, player_new.player_hints, player_new.player_level, player_new.player_health)
+        story_mode()
     elif case == 3:
         settings()
     elif case == 4:
@@ -58,7 +60,7 @@ def execute_case(case):
 
 def story_mode():
     print(color.RED +"  " *22 + "*********  OPTIONS  *********" + color.RESET)
-    if player.player_level==1:
+    if player.player_level<=1:
         print(color.YELLOW+"\n 1. NEW GAME"+ color.RESET)
         print(color.YELLOW+"\n 2. WAR GEAR"+ color.RESET)
         print(color.YELLOW+"\n 3. BACK"+ color.RESET)
@@ -102,17 +104,21 @@ def new_game():
         print(color.RED+ "  " *22 +"*********  PORTALS  *********"+color.RESET)
         print(color.YELLOW+"1. Portal A"+color.RESET)
         print(color.YELLOW+"2. Portal B"+color.RESET)
-        print(color.YELLOW+"3. Quit"+color.RESET)
+        print(color.YELLOW+"3. Go to main menu"+color.RESET)
+        print(color.YELLOW+"4. Quit"+color.RESET)
         portal_choice = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
 
         if portal_choice == 1:
             print(color.RED+"  "*22 + "*********  WELCOME TO PORTAL A  *********"+color.RESET)
+           
             #player.player_level = 1
             play_level(player.player_name, player.player_hints, player.player_level, player.player_health )
         elif portal_choice == 2:
             print(color.RED+"  "*22 + "*********  WELCOME TO PORTAL B  *********"+color.RESET)
         elif portal_choice == 3:
-            new_game()
+            main_menu()
+        elif portal_choice == 4:
+            exit()
         else:
             print("\n Please enter correct choice")
 

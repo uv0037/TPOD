@@ -2,9 +2,10 @@ import os
 import sys
 import json
 from pathlib import Path
-from logger import logging 
+import logging
+import logger
 from exception import CustomException
-from color import Color
+from src.utils import Color
 
 
 color = Color()
@@ -34,7 +35,7 @@ class Profile:
         
             
 
-    def create_new_profile(self, name, hints=5, level=1, health=100):
+    def create_new_profile(self, name, hints=3, level=1, health=100):
         try: 
             profile_data = {
                 "Name": name,
