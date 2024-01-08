@@ -3,6 +3,7 @@ from logger import logging
 from exception import CustomException
 from src.components.register import *
 from src.components.portal_a import *
+from src.components.portal_b import *
 from src.utils import Color, draw_circle
 import time
 
@@ -134,9 +135,10 @@ def new_game():
             words = sentence.split()  
             for word in words:
                 print(color.RED+word+color.RESET, end=' ', flush=True)
-                time.sleep(0.5) 
+                time.sleep(0.5)
+            b = 0 
             player.player_level = 1
-            play_level(player.player_name, player.player_hints, player.player_level, player.player_health )
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, b)
         elif portal_choice == 2:
             #print(color.RED+"  "*22 + "*********  WELCOME TO PORTAL B  *********"+color.RESET)
             print("  "*22, end=' ')
@@ -144,7 +146,10 @@ def new_game():
             words = sentence.split()  
             for word in words:
                 print(color.RED+word+color.RESET, end=' ', flush=True)
-                time.sleep(0.5) 
+                time.sleep(0.5)
+            b = 1 
+            player.player_level = 1    
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, b)
         elif portal_choice == 3:
             main_menu()
         elif portal_choice == 4:
@@ -163,7 +168,14 @@ def new_game():
 
 def resume():
     try:
-        play_level(player.player_name, player.player_hints, player.player_level, player.player_health )
+        print("ERROR")
+        if profile_data['Portal_b_stump'] == 1:
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health)
+        elif profile_data['Portal_b_stump'] == 0:
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health)
+        else:
+            print("ERROR")
+        
     except Exception as e:
         CustomException(e, sys)
 

@@ -128,14 +128,14 @@ class Profile:
         
     
 
-    def save_player_data(self, player_name, player_hints, player_level, player_health):
+    def save_player_data(self, player_name, player_hints, player_level, player_health, b):
         try:
             player_data = {
                 "Name": player_name,
                 "Hints": player_hints,
                 "Level": player_level,
                 "Health": player_health,
-                
+                "Portal_b_stump": b
             }
 
             filename = f"player_profiles/{player_name}_profile.json"
@@ -144,53 +144,4 @@ class Profile:
                 json.dump(player_data, file)
         except Exception as e:
             raise CustomException(e, sys)
-
-
-'''
-
-    def select_profile(self):
-        try:  
-            profiles = self.load_profiles()  
-
-            print(color.YELLOW+"Available Profiles:"+color.RESET)
-            for index, profile in enumerate(profiles, start=1):
-                print(color.GREEN+ f"{index}. {profile}" + color.RESET)
-        
-            print(color.YELLOW+"\n 1. Select profile"+color.RESET)
-            print(color.YELLOW+"\n 2. Create new profile"+color.RESET)
-            print(color.YELLOW+"\n 3. Delete profile"+color.RESET)
-            print(color.YELLOW+"\n 4. Quit"+color.RESET)
-            self.choice = int(input(color.BLUE+"\nSelect you choice: "+color.RESET))
-            if self.choice==1:
-                self.profile_selected = input(color.BLUE+"\nSelect your profile name: "+color.RESET)
-                if self.profile_selected in profiles:
-                    print(f"\nLoading profile: {self.profile_selected} ")
-                    self.load_profile(self.profile_selected)
-                else:
-                    print("Profile not found or please check the profile name")
-                    self.select_profile()
-            elif self.choice==2:
-                self.new_profile = input(color.BLUE+"\nEnter your profile name: "+color.RESET)
-                self.create_new_profile(self.new_profile)
-                self.select_profile()
-            elif self.choice==3:
-                self.delete_profile = input(color.BLUE+"\nEnter the profile name to be deleted: "+color.RESET)
-                self.delete_json_file(self.delete_profile)
-                self.select_profile()
-            elif self.choice == 4:
-                exit()
-            else:
-                print(color.BLUE+"Please enter correct choice"+color.RESET)
-                self.select_profile()
-        except Exception as e:
-            raise CustomException(e, sys)
-''' 
-
-        
-        
-
-
-
-
-
 

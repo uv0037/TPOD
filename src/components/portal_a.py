@@ -5,6 +5,7 @@ import logger
 from exception import CustomException
 from src.components.register import Profile
 from src.utils import Color
+import time
 
 
 
@@ -22,7 +23,7 @@ class PortalA:
             5: ["I'm a gentle breeze, carrying scents of bloom. Petals fall in my embrace, and I bring spring's perfume. What am I?", "I'm a crown of petals, a symbol of love. Red is my signature, sent from above. What am I?"],
         }
         self.answers = [
-                    ["tree", "River", "Stars"],
+                    ["tree", "River", "stars"],
                     ["Snow", "Mountain", "Butterfly"],
                     ["Sun", "Owl", "Rainbow"],
                     ["Grass", "Moon", "Spider"],
@@ -52,12 +53,12 @@ class Monster:
     
 def solve_riddle(level, riddle, answer):
     try:
-        print(color.ORANGE+f"\nRiddle for Level {level}:"+color.YELLOW+f" {riddle}"+color.RESET)
+        print(color.PURPLE+f"\nRiddle for Level {level}:"+color.RESET+color.YELLOW+f" {riddle}"+color.RESET)
         player_answer = input(color.BLUE+"Your answer: "+color.RESET).strip().lower()  
 
         if player_answer == answer.lower(): 
             print(color.GREEN+"\nCORRECT ANSWER"+color.RESET)
-            print(color.GREEN+"Proceeding to the next riddle.\n"+color.RESET)  
+            print(color.GREEN+"Proceeding to the next riddle."+color.RESET)  
             return True
         else:
             print(color.RED+"\nIncorrect answer!"+color.RESET)
@@ -66,7 +67,7 @@ def solve_riddle(level, riddle, answer):
         raise CustomException(e, sys)
 
 def create_monster():
-    return Monster("Shadowfang", health=120, attack_power=15)
+    return Monster("SHADOWFANG", health=120, attack_power=15)
         
 
 
@@ -74,10 +75,15 @@ def create_monster():
 
 def fight(player_name, player_hints, player_level, player_health, monster):
     try:
-        print(f"A wild {monster.name} appears!")
+        #print(color.BLUE+"\nA wild"+color.RED+f" {(monster.name).upper()} "+color.BLUE+"appears!"+color.RESET)
+        sentence = f"\nA wild {(monster.name).upper()} appears!"
+        words = sentence.split()  
+        for word in words:
+            print(color.BLUE+word+color.RESET, end=' ', flush=True)
+            time.sleep(0.5)
         while player_health > 0 and monster.is_alive():
             try:
-                print(color.YELLOW + f"1. Attack monster {monster.name}" + color.RESET)
+                print(color.YELLOW + f"\n\n1. Attack monster {monster.name}" + color.RESET)
                 print(color.YELLOW + "2. Surrender" + color.RESET)
                 print(color.YELLOW + "3. Save and Quit" + color.RESET)
                 choice = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
@@ -117,27 +123,19 @@ def fight(player_name, player_hints, player_level, player_health, monster):
 
 
 
-def play_level(player_name, player_hints, player_level, player_health):
+def play_level(player_name, player_hints, player_level, player_health, b):
     try:
         name = player_name
         current_hints = player_hints
         current_level = player_level
         current_health = player_health
-
+        portal_b_stump = b
         while current_level <= 6:   
-            
-            if current_level == 6:  
-                print(f"Monster level {current_level}. Prepare for a fight!")
-                monster = create_monster()
-                fight(name, current_hints, current_level, current_health, monster)
-                current_level += 1
-                break
 
-           
             ans = portal.answers
 
             for level in range(current_level, len(portal.levels) + 1):
-                print(color.ORANGE+f"\SUB - PORTAL LEVEL : {level} "+color.RESET)
+                print(color.ORANGE+f"\nSUB - PORTAL LEVEL : {level} "+color.RESET)
                 riddles = portal.levels[level]
                 for idx, riddle in enumerate(riddles):    
                     while not solve_riddle(level, riddle, ans[level - 1][idx]):
@@ -160,15 +158,20 @@ def play_level(player_name, player_hints, player_level, player_health):
                                     print(color.RED+"\nNo hints left"+color.RESET)
                                     solve_riddle(level, riddle, ans[level - 1][idx])
                             elif choice == 3:
-                                profile.save_player_data(name, current_hints, level, current_health)
+                                profile.save_player_data(name, current_hints, level, current_health, portal_b_stump)
                                 exit()
                         except ValueError:
                             print(color.RED+"\nPlease enter a valid number for the choice.")
                             print(color.BLUE+"Redirecting you to main menu"+color.RESET)
                             print(color.GREY+"**"*20+"\n"+color.RESET)
-            
-            print(color.GREEN+"Proceeding to the next SUB-PORTAL."+color.RESET)
-            current_level += 1
+                current_level += 1
+            print(color.GREEN+"\nProceeding to the next SUB-PORTAL.\n"+color.RESET)
+            if current_level == 6:  
+                print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
+                monster = create_monster()
+                fight(name, current_hints, current_level, current_health, monster)
+                current_level += 1
+                break    
             logging.info(f"Player {player_name} proceeding to level ")  
    
     except Exception as e:
