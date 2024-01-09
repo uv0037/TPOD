@@ -36,13 +36,14 @@ class Profile:
         
             
 
-    def create_new_profile(self, name, hints=3, level=1, health=100):
+    def create_new_profile(self, name, hints=3, level=1, health=100, b=0):
         try: 
             profile_data = {
                 "Name": name,
                 "Hints": hints,
                 "Level": level,
-                "Health": health
+                "Health": health,
+                "Portal_b_stump": b
             }
 
             profile_filename = f"player_profiles/{name.replace(' ', '_')}_profile.json"

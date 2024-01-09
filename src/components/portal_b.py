@@ -1,11 +1,11 @@
 import sys
 import random
 import logging
-import logger
+import time
 from exception import CustomException
 from src.components.register import Profile
 from src.utils import Color
-import time
+from src.components.portal_c import PortalC
 
 
 
@@ -18,25 +18,18 @@ class PortalB:
         self.levels = {
             1: ["I'm a pocket-sized marvel, a world in your hand. Apps and messages at your command. What am I?", "I'm a virtual realm, with pixels and code. Gamers explore me, in adventures untold. What am I?", "I'm a cipher guardian, securing your data's gate. A combination of characters, your secrets I translate. What am I?"],
             2: ["I'm a speedy messenger, carrying information fast. Emails and files, in the blink of an eye, I cast. What am I?", "I'm a byte-sized unit, the language of machines. Binary digits, zeros and ones, orchestrating digital scenes. What am I?", "I'm a silicon brain, processing commands. In the heart of your device, where logic expands. What am I?"],
-            3: ["I'm a connection hub, linking devices together. Wi-Fi waves dance, in my invisible tether. What am I?", "I'm a cloud in the digital sky, storing data without end. Accessible from anywhere, on me, you depend. What am I?", "I'm a micro-sized storage, holding memories dear. Photos and files, in my tiny sphere. What am I?"],
-            4: ["I'm a series of instructions, telling machines what to do. Code and algorithms, creating something new. What am I?", "I'm a virtual companion, answering queries with grace. 'Hey, ______,' initiate your case.What am I?", "I'm a pixelated landscape, where avatars roam. Multiplayer adventures, a digital home. What am I?"],
-            5: ["I'm a line of defense, detecting threats unseen. Anti-virus or firewall, keeping your system clean. What am I?", "I'm a futuristic currency, decentralized and secure. Miners validate transactions, in the blockchain, I endure. What am I?"],
-        }
+            3: ["I'm a connection hub, linking devices together. Wi-Fi waves dance, in my invisible tether. What am I?", "I'm a cloud in the digital sky, storing data without end. Accessible from anywhere, on me, you depend. What am I?", "I'm a micro-sized storage, holding memories dear. Photos and files, in my tiny sphere. What am I?"]
+           }
         self.answers = [
                     ["Smartphone", "Virtual Reality", "Password"],
                     ["Internet", "Binary Code", "CPU"],
                     ["Router", "Cloud Storage", "MicroSD Card"],
-                    ["Programming", "Virtual Assistant", "Online Game"],
-                    ["Cybersecurity", "Cryptocurrency"],
-                ]
+                  ]
         self.hints = [
             ["You swipe and tap to interact with me.", "Put on a headset to enter my domain.", "Make me strong to protect your accounts."],
             ["I connect the world with a web of information.", "I represent information in the digital world.", "I'm the brains of the operation."],
-            ["I provide the gateway to the online world.", "I keep your files floating securely.", "I fit in the palm of your hand."],
-            ["Developers write me to make software.", "I respond to voice commands.", "You interact with players worldwide."],
-            ["I safeguard against digital dangers.", "I challenge traditional notions of money."]
-
-        ]
+            ["I provide the gateway to the online world.", "I keep your files floating securely.", "I fit in the palm of your hand."]
+          ]
 portal = PortalB()
 
 class Monster:
@@ -86,7 +79,7 @@ def fight(player_name, player_hints, player_level, player_health, monster):
                 print(color.YELLOW + f"\n\n1. Attack monster {monster.name}" + color.RESET)
                 print(color.YELLOW + "2. Surrender" + color.RESET)
                 print(color.YELLOW + "3. Save and Quit" + color.RESET)
-                choice = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
+                choice = int(input(color.BLUE+"\nEnter your choice: "+ color.RESET))
 
                 if choice == 1:
                     player_attack = random.randint(20, 30)  
@@ -116,6 +109,11 @@ def fight(player_name, player_hints, player_level, player_health, monster):
         elif not monster.is_alive():
             print(color.GREEN+f"You defeated the {monster.name}!"+color.RESET)
             
+        if not monster.is_alive():
+            portal_last = PortalC()
+            portal_last.desc()
+            portal_last.last_portal() 
+            
 
 
     except Exception as e:
@@ -130,7 +128,7 @@ def play_level_b(player_name, player_hints, player_level, player_health, b):
         current_level = player_level
         current_health = player_health
         portal_b_stump = b
-        while current_level <= 6:   
+        while current_level <= 4:   
             
             
 
@@ -169,7 +167,7 @@ def play_level_b(player_name, player_hints, player_level, player_health, b):
                             print(color.GREY+"**"*20+"\n"+color.RESET)
                 current_level += 1
             print(color.GREEN+"\nProceeding to the next SUB-PORTAL.\n"+color.RESET)
-            if current_level == 6:  
+            if current_level == 4:  
                 print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
                 monster = create_monster()
                 fight(name, current_hints, current_level, current_health, monster)

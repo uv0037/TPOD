@@ -1,11 +1,12 @@
 import sys
 import random
 import logging
-import logger
+import time
 from exception import CustomException
 from src.components.register import Profile
 from src.utils import Color
-import time
+from src.components.portal_c import PortalC
+
 
 
 
@@ -13,30 +14,24 @@ import time
 color = Color()
 profile = Profile()
 
+
 class PortalA:
     def __init__(self):
         self.levels = {
             1: ["I stand tall and proud, yet my roots are hidden below. Birds rest on my branches, and my leaves sway in the breeze. What am I?", "I'm a flowing ribbon, winding through valleys and plains. People build bridges over me, and fish call me home. What am I?", "I'm silent in the night, a celestial display. Countless twinkling lights, far, far away. What am I?"],
             2: ["I'm covered in white, sparkling and cold. I transform landscapes and bring joy to the young and old. What am I?", "I'm a fortress of rock, standing tall and grand. Climbers challenge me, and eagles understand. What am I?", "I'm a buzzing melody, sipping nectar with grace. Wings painted in hues, a delicate embrace. What am I?"],
-            3: ["I'm a golden globe in the sky, warming the earth below. Sunflowers turn to face me, and shadows gently grow. What am I?", "I'm a silent hunter, prowling in the night. Sharp eyes and stealthy moves, always out of sight. What am I?", "I'm a dance of colors, painted in the sky. Rain brings me to life, as I arch and amplify. What am I?"],
-            4: ["I'm a carpet of green, soft underfoot. Picnics are enjoyed on me, and I provide shade for a respite. What am I?", "I'm a silver crescent, pulling the tide. Waves dance to my rhythm, a celestial guide. What am I?", "I'm a tiny architect, spinning threads with skill. My intricate webs decorate corners, waiting patiently and still. What am I?"],
-            5: ["I'm a gentle breeze, carrying scents of bloom. Petals fall in my embrace, and I bring spring's perfume. What am I?", "I'm a crown of petals, a symbol of love. Red is my signature, sent from above. What am I?"],
+            3: ["I'm a golden globe in the sky, warming the earth below. Sunflowers turn to face me, and shadows gently grow. What am I?", "I'm a silent hunter, prowling in the night. Sharp eyes and stealthy moves, always out of sight. What am I?", "I'm a dance of colors, painted in the sky. Rain brings me to life, as I arch and amplify. What am I?"]
         }
         self.answers = [
                     ["tree", "River", "stars"],
                     ["Snow", "Mountain", "Butterfly"],
-                    ["Sun", "Owl", "Rainbow"],
-                    ["Grass", "Moon", "Spider"],
-                    ["Wind", "Rose"],
+                    ["Sun", "Owl", "Rainbow"]
                 ]
         self.hints = [
             ["I provide shade on a sunny day.", "Follow my current to find the answer.", "Make a wish upon me."],
             ["Winter's blanket on the ground.", "Look up to find my peaks.", "My life begins as a caterpillar."],
-            ["Daylight is my time to shine.", "I'm known for my wisdom.", "Find me after the storm."],
-            ["Lawns are made of me.", "I control the ocean's flow.", "I catch my prey in a silky trap."],
-            ["I rustle leaves in the trees.", "I'm often given on special occasions."]
-
-        ]
+            ["Daylight is my time to shine.", "I'm known for my wisdom.", "Find me after the storm."]
+            ]
 portal = PortalA()
 
 class Monster:
@@ -75,7 +70,6 @@ def create_monster():
 
 def fight(player_name, player_hints, player_level, player_health, monster):
     try:
-        #print(color.BLUE+"\nA wild"+color.RED+f" {(monster.name).upper()} "+color.BLUE+"appears!"+color.RESET)
         sentence = f"\nA wild {(monster.name).upper()} appears!"
         words = sentence.split()  
         for word in words:
@@ -86,7 +80,7 @@ def fight(player_name, player_hints, player_level, player_health, monster):
                 print(color.YELLOW + f"\n\n1. Attack monster {monster.name}" + color.RESET)
                 print(color.YELLOW + "2. Surrender" + color.RESET)
                 print(color.YELLOW + "3. Save and Quit" + color.RESET)
-                choice = int(input(color.BLUE+"\n Enter your choice: "+ color.RESET))
+                choice = int(input(color.BLUE+"\nEnter your choice: "+ color.RESET))
 
                 if choice == 1:
                     player_attack = random.randint(20, 30)  
@@ -116,6 +110,11 @@ def fight(player_name, player_hints, player_level, player_health, monster):
         elif not monster.is_alive():
             print(color.GREEN+f"You defeated the {monster.name}!"+color.RESET)
             
+        if not monster.is_alive():
+            portal_last = PortalC()
+            portal_last.desc()
+            portal_last.last_portal()   
+            
 
 
     except Exception as e:
@@ -130,7 +129,7 @@ def play_level(player_name, player_hints, player_level, player_health, b):
         current_level = player_level
         current_health = player_health
         portal_b_stump = b
-        while current_level <= 6:   
+        while current_level <= 4:   
 
             ans = portal.answers
 
@@ -166,7 +165,7 @@ def play_level(player_name, player_hints, player_level, player_health, b):
                             print(color.GREY+"**"*20+"\n"+color.RESET)
                 current_level += 1
             print(color.GREEN+"\nProceeding to the next SUB-PORTAL.\n"+color.RESET)
-            if current_level == 6:  
+            if current_level == 4:  
                 print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
                 monster = create_monster()
                 fight(name, current_hints, current_level, current_health, monster)
