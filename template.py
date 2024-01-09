@@ -7,12 +7,14 @@ logging.basicConfig(level=logging.INFO, format='[%(asctime)s]: %(message)s: %(li
 project_name = "tpod"
 
 list_of_files=[
-    ".github/workflows/.gitkeep",    
-    f"src/components/__init__.py",
-    f"src/components/register.py",
-    f"src/components/portal_a_rid.py",
-    f"src/components/portal_b_rid.py",
-    "player_profiles/player_info.json"
+    ".github/workflows/.gitkeep", 
+    "src/utils.py",   
+    "src/components/__init__.py",
+    "src/components/register.py",
+    "src/components/portal_a_rid.py",
+    "src/components/portal_b.py",
+    "src/components/portal_c.py",
+    "player_profiles/"
 ]
 
 for filepath in list_of_files:

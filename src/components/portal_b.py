@@ -66,10 +66,9 @@ def create_monster():
 
         
 
-def fight(player_name, player_hints, player_level, player_health, monster):
+def fight(player_name, player_hints, player_level, player_health, player_armour, monster):
     try:
-        #print(color.BLUE+"\nA wild"+color.RED+f" {(monster.name).upper()} "+color.BLUE+"appears!"+color.RESET)
-        sentence = f"\nA wild {monster.name} appears!"
+        sentence = f"A wild {monster.name} appears!"
         words = sentence.split()  
         for word in words:
             print(color.BLUE+word+color.RESET, end=' ', flush=True)
@@ -90,13 +89,18 @@ def fight(player_name, player_hints, player_level, player_health, monster):
                             break  
 
                     monster_attack = random.randint(15, 30)
-                    player_health -= monster_attack
-                    print(color.RED+ f"The {monster.name} attacks you with power {monster_attack}. Your health level is now {player_health}" + color.RESET)
+                    player_armour -= monster_attack
+                    if player_armour <= 0:
+                        arm=0
+                        player_health -= monster_attack
+                        print(color.RED+ f"The {monster.name} attacks you with power {monster_attack}. Your health is {player_health} and armour is {arm}." + color.RESET)
+                    else:
+                        print(color.RED+ f"The {monster.name} attacks you with power {monster_attack}. Your health is {player_health} and armour is {player_armour}." + color.RESET)
                 elif choice == 2:
                     player_health = 0
             
                 elif choice == 3:
-                    profile.save_player_data(player_name, player_hints, player_level, player_health)
+                    profile.save_player_data(player_name, player_hints, player_level, player_health, arm)
                     exit()
             except ValueError:
                             print(color.RED+"\nPlease enter a valid number for the choice.")
@@ -111,7 +115,7 @@ def fight(player_name, player_hints, player_level, player_health, monster):
             
         if not monster.is_alive():
             portal_last = PortalC()
-            portal_last.desc()
+            portal_last.desc(player_name, player_hints, player_level, player_health, arm)
             portal_last.last_portal() 
             
 
@@ -121,12 +125,13 @@ def fight(player_name, player_hints, player_level, player_health, monster):
 
 
 
-def play_level_b(player_name, player_hints, player_level, player_health, b):
+def play_level_b(player_name, player_hints, player_level, player_health, armour, b):
     try:
         name = player_name
         current_hints = player_hints
         current_level = player_level
         current_health = player_health
+        current_armour = armour
         portal_b_stump = b
         while current_level <= 4:   
             
@@ -159,7 +164,7 @@ def play_level_b(player_name, player_hints, player_level, player_health, b):
                                     print(color.RED+"\nNo hints left"+color.RESET)
                                     solve_riddle(level, riddle, ans[level - 1][idx])
                             elif choice == 3:
-                                profile.save_player_data(name, current_hints, level, current_health, portal_b_stump)
+                                profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
                                 exit()
                         except ValueError:
                             print(color.RED+"\nPlease enter a valid number for the choice.")
@@ -167,10 +172,16 @@ def play_level_b(player_name, player_hints, player_level, player_health, b):
                             print(color.GREY+"**"*20+"\n"+color.RESET)
                 current_level += 1
             print(color.GREEN+"\nProceeding to the next SUB-PORTAL.\n"+color.RESET)
-            if current_level == 4:  
+            if current_level == 4:
+                print(color.GREEN + f"\nProfile chosen name: {name}" + color.RESET)
+                print(color.GREEN + f"{name}'s Hints left: {current_hints}" + color.RESET)
+                print(color.GREEN + f"{name}'s level: {current_level}" + color.RESET)
+                print(color.GREEN + f"{name}'s health: {current_health}" + color.RESET)
+                print(color.GREEN + f"{name}'s Armour: {current_armour}" + color.RESET)  
                 print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
                 monster = create_monster()
-                fight(name, current_hints, current_level, current_health, monster)
+                fight(name, current_hints, current_level, current_health, current_armour, monster)
+                profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
                 current_level += 1
                 break    
             logging.info(f"Player {player_name} proceeding to level ")  

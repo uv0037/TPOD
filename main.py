@@ -25,14 +25,15 @@ profile_data = profile.load_profile(profile.profile_selected)
 
 
 class Player:
-    def __init__(self, name, hints, level, health):
+    def __init__(self, name, hints, level, health, armour):
         self.player_name = name
         self.player_hints = hints
         self.player_level = level
         self.player_health = health
+        self.player_armour = armour
 
 
-player = Player(profile_data['Name'], profile_data['Hints'], profile_data['Level'], profile_data['Health'])
+player = Player(profile_data['Name'], profile_data['Hints'], profile_data['Level'], profile_data['Health'], profile_data['Armour'])
 
 
 def profile_details(name, hints, level, health):
@@ -50,8 +51,7 @@ def main_menu():
         print(color.RED + "  " * 22 + "*********  OPTIONS  *********" + color.RESET)
         print(color.YELLOW + "\n1. STORY MODE" + color.RESET)
         print(color.YELLOW + "2. CHANGE PROFILE" + color.RESET)
-        print(color.YELLOW + "3. SETTINGS" + color.RESET)
-        print(color.YELLOW + "4. QUIT GAME" + color.RESET)
+        print(color.YELLOW + "3. QUIT GAME" + color.RESET)
         try:
             case = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
             if case == 1:
@@ -67,8 +67,6 @@ def main_menu():
                 main_menu()
                 break
             elif case == 3:
-                settings()
-            elif case == 4:
                 exit()
         except ValueError:
             print(color.RED + "\nPlease enter a valid number for the choice.")
@@ -81,8 +79,7 @@ def story_mode():
         while True:
             print(color.RED + "  " * 22 + "*********  OPTIONS  *********" + color.RESET)
             print(color.YELLOW + "\n1. NEW GAME" + color.RESET)
-            print(color.YELLOW + "2. WAR GEAR" + color.RESET)
-            print(color.YELLOW + "3. BACK" + color.RESET)
+            print(color.YELLOW + "2. BACK" + color.RESET)
             try:
                 new_case = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
                 execute_story_mode_case_new(new_case)
@@ -110,8 +107,6 @@ def execute_story_mode_case_new(new_case):
     if new_case == 1:
         new_game()
     elif new_case == 2:
-        war_gear()
-    elif new_case == 3:
         main_menu()
     else:
         story_mode()
@@ -130,6 +125,29 @@ def execute_story_mode_case(case):
         story_mode()
 
 
+def war_gear():
+    try:
+        print(color.YELLOW+"\n1. Take armour")
+        print(color.YELLOW+"\n2. Back")
+        try:
+            case = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
+            if case == 1:
+                if player.player_level >= 2 and player.player_hints > 1:
+                    player.player_armour = 50
+                    print(color.GREEN + f"{player.player_name}'s armour: {player.player_armour}" + color.RESET)
+                else:
+                    print("\n Your are not eligible for armour")
+            elif case == 2:
+                story_mode()
+                   
+        except ValueError:
+            print(color.RED + "\nPlease enter a valid number for the choice.")
+            print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
+            print(color.GREY + "**" * 20 + "\n" + color.RESET)
+        
+    except Exception as e:
+        CustomException(e, sys)
+
 def new_game():
     try:
         print(color.RED + "  " * 22 + "*********  PORTALS  *********" + color.RESET)
@@ -140,6 +158,7 @@ def new_game():
         portal_choice = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
 
         if portal_choice == 1:
+            draw_circle(10)
             print("  " * 22, end=' ')
             sentence = "**********  WELCOME TO PORTAL A  **********"
             words = sentence.split()
@@ -157,15 +176,16 @@ def new_game():
             player.player_level = 1
             player.player_health = 100
             b = 0
-            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, b)
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)
         elif portal_choice == 2:
+            draw_circle(10)
             print("  " * 22, end=' ')
             sentence = "**********  WELCOME TO PORTAL B  **********"
             words = sentence.split()
             for word in words:
                 print(color.RED + word + color.RESET, end=' ', flush=True)
                 time.sleep(0.5)
-        
+            print("\n")
             sentence_b = "********** Welcome to Portal B, where the pulse of technology beats strong, revealing innovations and digital marvels in an ever-evolving world. **********"
             words = sentence_b.split()
             for word in words:
@@ -176,7 +196,7 @@ def new_game():
             player.player_level = 1
             player.player_health = 100
             b = 1
-            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, b)
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)
         elif portal_choice == 3:
             main_menu()
         elif portal_choice == 4:
@@ -191,9 +211,9 @@ def new_game():
 def resume():
     try:
         if profile_data.get('Portal_b_stump') == 1:
-            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, 1)
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 1)
         elif profile_data.get('Portal_b_stump') == 0:
-            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, 0)
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 0)
         else:
             print("ERROR")
 

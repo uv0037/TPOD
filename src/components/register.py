@@ -36,13 +36,14 @@ class Profile:
         
             
 
-    def create_new_profile(self, name, hints=3, level=1, health=100, b=0):
+    def create_new_profile(self, name, hints=3, level=1, health=100, armour=0, b=0):
         try: 
             profile_data = {
                 "Name": name,
                 "Hints": hints,
                 "Level": level,
                 "Health": health,
+                "Armour": armour,
                 "Portal_b_stump": b
             }
 
@@ -80,7 +81,7 @@ class Profile:
                 try:
                     self.choice = int(input(color.BLUE + "\nSelect your choice: " + color.RESET))
                     if self.choice == 1:
-                        self.profile_selected = input(color.BLUE + "\nSelect your user name: " + color.RESET)
+                        self.profile_selected = input(color.BLUE + "\nSelect your user name from available profiles: " + color.RESET)
                         if self.profile_selected in profiles:
                             print(color.BLUE+f"\nLoading profile: "+color.GREEN+f"{self.profile_selected}"+color.RESET)
                             self.load_profile(self.profile_selected)
@@ -129,13 +130,14 @@ class Profile:
         
     
 
-    def save_player_data(self, player_name, player_hints, player_level, player_health, b):
+    def save_player_data(self, player_name, player_hints, player_level, player_health, player_armour, b):
         try:
             player_data = {
                 "Name": player_name,
                 "Hints": player_hints,
                 "Level": player_level,
                 "Health": player_health,
+                "Armour": player_armour,
                 "Portal_b_stump": b
             }
 

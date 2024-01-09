@@ -1,14 +1,16 @@
 
 import time
-from src.utils import Color
+from src.utils import *
 
+
+color = Color()
 class PortalC:
     def __init__(self):
         pass
 
-    def desc(self):
-        color = Color()
-        print("  " * 22, end=' ')
+    def desc(self, player_name, player_hints, player_level, player_health, player_armour):
+        draw_circle(10)
+        print("  " * 10, end=' ')
         sentence = "**********  WELCOME TO PORTAL C  **********"
         words = sentence.split()
         for word in words:
@@ -16,14 +18,18 @@ class PortalC:
             time.sleep(0.5)
 
         print("\n") 
-
+        #print("  " *2, end=' ')
         sentence_b = "Portal C, the gateway back to reality, yet guarded by the final challenge. Solve the puzzle of Missionaries and Cannibals to bridge the gap between the realms and emerge victorious."
         words = sentence_b.split()
         for word in words:
             print(color.GREEN + word + color.RESET, end=' ', flush=True)
             time.sleep(0.2)
+        print("\n")
 
-
+        print(color.GREEN + f"\nProfile chosen name: {player_name}" + color.RESET)
+        print(color.GREEN + f"{player_name}'s Hints left: {player_hints}" + color.RESET)
+        print(color.GREEN + f"{player_name}'s health: {player_health}" + color.RESET)
+        print(color.GREEN + f"{player_name}'s Armour: {player_armour}" + color.RESET) 
 
 
     def last_portal(self):
@@ -34,22 +40,49 @@ class PortalC:
         cannibals_on_left = 0
         b = 0
         run = True
+        print("  " * 10, end=' ')
+        sentence_mc = "**********  MISSIONARIES AND CANNIBALS  **********"
+        words = sentence_mc.split()
+        for word in words:
+            print(color.RED + word + color.RESET, end=' ', flush=True)
+            time.sleep(0.5)
+        print("\n")
+        print(color.RED+"  " * 22+"RULES"+color.RESET)
+        sentence_r1 = "1. Number of missionaries on either side should never be less than number of cannibals"
+        words = sentence_r1.split()
+        for word in words:
+            print(color.GREEN + word + color.RESET, end=' ', flush=True)
+            time.sleep(0.2)
+        print("\n")
+        sentence_r2 = "2. Only one or 2 people can travel through boat at a time."
+        words = sentence_r2.split()
+        for word in words:
+            print(color.GREEN + word + color.RESET, end=' ', flush=True)
+            time.sleep(0.2)
+        print("\n")
+        sentence_r3 = "3. You win the game when all missionaries and cannibals on the right go to the left side"
+        words = sentence_r3.split()
+        for word in words:
+            print(color.GREEN + word + color.RESET, end=' ', flush=True)
+            time.sleep(0.2)
+        print("\n")
+        
+        print(color.YELLOW+f'Missionaries = {missionaries_on_left}'+color.RED+F' Cannibals = {cannibals_on_left} '+color.BLUE+ ' |-----B| ' + color.YELLOW + f' Missionaries = {missionaries_on_right}'+color.RED+f' Cannibals = {cannibals_on_right}'+color.RESET)
 
         while run:
-            missionaries = int(input("M: "))
-            cannibals = int(input("C: "))
-            print(f'M = {missionaries_on_left} C = {cannibals_on_left} |-----B| M = {missionaries_on_right} C = {cannibals_on_right}')
+            missionaries = int(input("\nMissionaries: "))
+            cannibals = int(input("Cannibals: "))
             b = missionaries + cannibals
 
             if 1 <= b <= 2:
-                print("Valid move")
+                print(color.GREEN+"\nVALID MOVE\n"+color.RESET)
             else:
-                print('Invalid move')
+                print(color.RED+"\nINVALID MOVE\n"+color.RESET)
                 continue
 
             if missionaries_on_right < missionaries or cannibals_on_right < cannibals:
-                print('Invalid move')
-                continue
+                print(color.RED+"\nINVALID MOVE\n"+color.RESET)
+                
 
             if boat_side == 'Right':
                 missionaries_on_right -= missionaries
@@ -57,22 +90,25 @@ class PortalC:
                 missionaries_on_left += missionaries
                 cannibals_on_left += cannibals
                 boat_side = 'Left'
-                print(f'M = {missionaries_on_left} C = {cannibals_on_left} |B------| M = {missionaries_on_right} C = {cannibals_on_right}')
+                print(color.YELLOW+f'Missionaries = {missionaries_on_left}'+color.RED+F' Cannibals = {cannibals_on_left} '+color.BLUE+ ' |B-----| ' + color.YELLOW + f' Missionaries = {missionaries_on_right}'+color.RED+f' Cannibals = {cannibals_on_right}'+color.RESET)
             else:
                 missionaries_on_left -= missionaries
                 cannibals_on_left -= cannibals
                 missionaries_on_right += missionaries
                 cannibals_on_right += cannibals
                 boat_side = 'Right'
-                print(f'M = {missionaries_on_left} C = {cannibals_on_left} |------B| M = {missionaries_on_right} C = {cannibals_on_right}')
+                print(color.YELLOW+f'Missionaries = {missionaries_on_left}'+color.RED+F' Cannibals = {cannibals_on_left} '+color.BLUE+ ' |-----B| ' + color.YELLOW + f' Missionaries = {missionaries_on_right}'+color.RED+f' Cannibals = {cannibals_on_right}'+color.RESET) 
 
             if 0 < missionaries_on_right < cannibals_on_right or 0 < missionaries_on_left < cannibals_on_left:
-                print("You Lose")
-                print("Game over")
+                print(color.RED+"\nYou Lose, GAME OVER"+color.RESET)
                 run = False
             elif missionaries_on_left == 3 and cannibals_on_left == 3:
-                print('You win')
-                print("Game over")
+                print(color.GREEN+'\nYou win\n')
+                sentence = "**********  After traversing the intricate dimensions, unlocking the mysteries of the enigmatic portals, and mastering the arcane challenges, the lost souls finally reunite with their mortal vessel, awakening to a new beginning in the realm of the living.  **********"
+                words = sentence.split()
+                for word in words:
+                    print(color.RED + word + color.RESET, end=' ', flush=True)
+                    time.sleep(0.5)
                 run = False
 
 
