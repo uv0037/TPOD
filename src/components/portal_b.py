@@ -1,6 +1,6 @@
 import sys
 import random
-import logging
+from logger import *
 import time
 from exception import CustomException
 from src.components.register import Profile
@@ -114,9 +114,10 @@ def fight(player_name, player_hints, player_level, player_health, player_armour,
             print(color.GREEN+f"You defeated the {monster.name}!"+color.RESET)
             
         if not monster.is_alive():
+            logging.info(f"Player {player_name} proceeding to last portal ")
             portal_last = PortalC()
             portal_last.desc(player_name, player_hints, player_level, player_health, arm)
-            portal_last.last_portal() 
+            portal_last.last_portal(player_name) 
             
 
 

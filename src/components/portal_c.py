@@ -1,7 +1,8 @@
 
 import time
 from src.utils import *
-
+from logger import *
+from exception import *
 
 color = Color()
 class PortalC:
@@ -10,7 +11,7 @@ class PortalC:
 
     def desc(self, player_name, player_hints, player_level, player_health, player_armour):
         draw_circle(10)
-        print("  " * 10, end=' ')
+        print("  " * 15, end=' ')
         sentence = "**********  WELCOME TO PORTAL C  **********"
         words = sentence.split()
         for word in words:
@@ -32,7 +33,7 @@ class PortalC:
         print(color.GREEN + f"{player_name}'s Armour: {player_armour}" + color.RESET) 
 
 
-    def last_portal(self):
+    def last_portal(self, player_name):
         boat_side = 'Right'
         missionaries_on_right = 3
         cannibals_on_right = 3
@@ -103,6 +104,7 @@ class PortalC:
                 print(color.RED+"\nYou Lose, GAME OVER"+color.RESET)
                 run = False
             elif missionaries_on_left == 3 and cannibals_on_left == 3:
+                logging.info(f"Player {player_name} won the game ")
                 print(color.GREEN+'\nYou win\n')
                 sentence = "**********  After traversing the intricate dimensions, unlocking the mysteries of the enigmatic portals, and mastering the arcane challenges, the lost souls finally reunite with their mortal vessel, awakening to a new beginning in the realm of the living.  **********"
                 words = sentence.split()

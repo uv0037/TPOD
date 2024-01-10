@@ -159,7 +159,7 @@ def new_game():
 
         if portal_choice == 1:
             draw_circle(10)
-            print("  " * 22, end=' ')
+            print("  " * 15, end=' ')
             sentence = "**********  WELCOME TO PORTAL A  **********"
             words = sentence.split()
             for word in words:
@@ -179,7 +179,7 @@ def new_game():
             play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)
         elif portal_choice == 2:
             draw_circle(10)
-            print("  " * 22, end=' ')
+            print("  " * 15, end=' ')
             sentence = "**********  WELCOME TO PORTAL B  **********"
             words = sentence.split()
             for word in words:
