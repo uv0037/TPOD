@@ -51,7 +51,8 @@ def main_menu():
         print(color.RED + "  " * 22 + "*********  OPTIONS  *********" + color.RESET)
         print(color.YELLOW + "\n1. STORY MODE" + color.RESET)
         print(color.YELLOW + "2. CHANGE PROFILE" + color.RESET)
-        print(color.YELLOW + "3. QUIT GAME" + color.RESET)
+        print(color.YELLOW + "3. GAME MAP" + color.RESET)
+        print(color.YELLOW + "4. QUIT GAME" + color.RESET)
         try:
             case = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
             if case == 1:
@@ -67,6 +68,24 @@ def main_menu():
                 main_menu()
                 break
             elif case == 3:
+                print(color.GREEN+"\n")
+                time.sleep(1)
+                print("PORTAL A  OR  PORTAL B\n")
+                time.sleep(1)
+                print("       Level 1 (Riddle level)")
+                time.sleep(1)
+                print("       Level 2 (Riddle level)")
+                time.sleep(1)
+                print("       Level 3 (Riddle level)")
+                time.sleep(1)
+                print("       Level 4 (Monster level)\n")
+                time.sleep(1)
+                print("       PORTAL C\n")
+                time.sleep(1)
+                print("LAST LEVEL (Missionaries and Cannibals)\n")
+                time.sleep(1)
+                print("      GAME COMPLETED!"+color.RESET)
+            elif case == 4:
                 exit()
         except ValueError:
             print(color.RED + "\nPlease enter a valid number for the choice.")
