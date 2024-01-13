@@ -103,8 +103,9 @@ def fight(player_name, player_hints, player_level, player_health, player_armour,
                     player_health = 0
             
                 elif choice == 3:
-                    profile.save_player_data(player_name, player_hints, player_level, player_health, arm)
-                    exit()
+                    #profile.save_player_data(player_name, player_hints, player_level, player_health, arm)
+                    #exit()
+                    print("Exit")
             except ValueError:
                             print(color.RED+"\nPlease enter a valid number for the choice.")
                             print(color.BLUE+"Redirecting you to main menu"+color.RESET)
@@ -112,7 +113,7 @@ def fight(player_name, player_hints, player_level, player_health, player_armour,
 
         if player_health <= 0:
             print(color.RED+"You've been defeated. Game Over!"+color.RESET)
-            exit()
+            #exit()
         elif not monster.is_alive():
             print(color.GREEN+f"You defeated the {monster.name}!"+color.RESET)
             
@@ -121,8 +122,6 @@ def fight(player_name, player_hints, player_level, player_health, player_armour,
             portal_last = PortalC()
             portal_last.desc(player_name, player_hints, player_level, player_health, arm)
             portal_last.last_portal(player_name)   
-            
-
 
     except Exception as e:
         raise CustomException(e, sys)

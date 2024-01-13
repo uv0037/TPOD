@@ -126,7 +126,6 @@ def execute_story_mode_case(case):
 
 
 def war_gear():
-    try:
         print(color.YELLOW+"\n1. Take armour")
         print(color.YELLOW+"\n2. Back")
         try:
@@ -144,17 +143,15 @@ def war_gear():
             print(color.RED + "\nPlease enter a valid number for the choice.")
             print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
             print(color.GREY + "**" * 20 + "\n" + color.RESET)
-        
-    except Exception as e:
-        CustomException(e, sys)
+
 
 def new_game():
+    print(color.RED + "  " * 22 + "*********  PORTALS  *********" + color.RESET)
+    print(color.YELLOW + "\n1. PORTAL A" + color.RESET)
+    print(color.YELLOW + "2. PORTAL B" + color.RESET)
+    print(color.YELLOW + "3. GO TO MAIN MENU" + color.RESET)
+    print(color.YELLOW + "4. QUIT" + color.RESET)
     try:
-        print(color.RED + "  " * 22 + "*********  PORTALS  *********" + color.RESET)
-        print(color.YELLOW + "\n1. PORTAL A" + color.RESET)
-        print(color.YELLOW + "2. PORTAL B" + color.RESET)
-        print(color.YELLOW + "3. GO TO MAIN MENU" + color.RESET)
-        print(color.YELLOW + "4. QUIT" + color.RESET)
         portal_choice = int(input(color.BLUE + "\nEnter your choice: " + color.RESET))
 
         if portal_choice == 1:
@@ -216,7 +213,6 @@ def resume():
             play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 0)
         else:
             print("ERROR")
-
     except Exception as e:
         CustomException(e, sys)
 
