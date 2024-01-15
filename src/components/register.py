@@ -85,6 +85,7 @@ class Profile:
                         if self.profile_selected in profiles:
                             print(color.BLUE+f"\nLoading profile: "+color.GREEN+f"{self.profile_selected}"+color.RESET)
                             self.load_profile(self.profile_selected)
+                            logging.info(f" {self.profile_selected} profile was selected ")
                             break
                         else:
                             print(color.RED+"\nProfile not found or please check the profile name"+color.RESET)

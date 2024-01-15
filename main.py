@@ -129,6 +129,8 @@ def story_mode():
                 print(color.RED + "\nPlease enter a valid number for the choice.")
                 print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
                 print(color.GREY + "**" * 20 + "\n" + color.RESET)
+            except Exception as e:
+                CustomException(e, sys)
 
 
 def execute_story_mode_case_new(new_case):
@@ -163,7 +165,7 @@ def war_gear():
                     player.player_armour = 50
                     print(color.GREEN + f"{player.player_name}'s armour: {player.player_armour}" + color.RESET)
                 else:
-                    print("\n Your are not eligible for armour")
+                    print(color.RED+"\n Your are not eligible for armour"+color.RESET)
             elif case == 2:
                 story_mode()
                    
@@ -171,6 +173,8 @@ def war_gear():
             print(color.RED + "\nPlease enter a valid number for the choice.")
             print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
             print(color.GREY + "**" * 20 + "\n" + color.RESET)
+        except Exception as e:
+            CustomException(e, sys)
 
 
 def new_game():
@@ -201,7 +205,8 @@ def new_game():
             player.player_level = 1
             player.player_health = 100
             b = 0
-            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)  #traverse to portal B 
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)  #traverse to portal A
+            logging.info(f" {player.player_name} enters portal A")
         elif portal_choice == 2:
             draw_circle(10)
             print("  " * 15, end=' ')
@@ -222,6 +227,7 @@ def new_game():
             player.player_health = 100
             b = 1
             play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)  #traverse to portal B 
+            logging.info(f" {player.player_name} enters portal A")
         elif portal_choice == 3:
             main_menu()
         elif portal_choice == 4:
@@ -232,6 +238,8 @@ def new_game():
         print(color.RED + "\nPlease enter a valid number for the choice.")
         print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
         print(color.GREY + "**" * 20 + "\n" + color.RESET)
+    except Exception as e:
+        CustomException(e, sys)
 
 
 def resume():               #resume from the level the game was saved

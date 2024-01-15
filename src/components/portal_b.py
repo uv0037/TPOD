@@ -174,6 +174,7 @@ def play_level_b(player_name, player_hints, player_level, player_health, armour,
                 current_level += 1
             print(color.GREEN+"\nProceeding to the next SUB-PORTAL.\n"+color.RESET)
             if current_level == 4:
+                logging.info(f" {name} enters monster level")
                 print(color.GREEN + f"\nProfile chosen name: {name}" + color.RESET)
                 print(color.GREEN + f"{name}'s Hints left: {current_hints}" + color.RESET)
                 print(color.GREEN + f"{name}'s level: {current_level}" + color.RESET)
@@ -184,6 +185,7 @@ def play_level_b(player_name, player_hints, player_level, player_health, armour,
                 profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
                 fight(name, current_hints, current_level, current_health, current_armour, monster)
                 current_level += 1
+                profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
                 break    
             logging.info(f"Player {player_name} proceeding to level ")  
    

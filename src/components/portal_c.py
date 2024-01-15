@@ -55,7 +55,7 @@ class PortalC:
             print(color.GREEN + word + color.RESET, end=' ', flush=True)
             time.sleep(0.2)
         print("\n")
-        sentence_r2 = "2. Only one or 2 people can travel through boat at a time."
+        sentence_r2 = "2. Only one or 2 people can travel through boat at a time and always need one to travel from either side."
         words = sentence_r2.split()
         for word in words:
             print(color.GREEN + word + color.RESET, end=' ', flush=True)
@@ -67,6 +67,7 @@ class PortalC:
             print(color.GREEN + word + color.RESET, end=' ', flush=True)
             time.sleep(0.2)
         print("\n")
+        
         
         print(color.YELLOW+f'Missionaries = {missionaries_on_left}'+color.RED+F' Cannibals = {cannibals_on_left} '+color.BLUE+ ' |-----B| ' + color.YELLOW + f' Missionaries = {missionaries_on_right}'+color.RED+f' Cannibals = {cannibals_on_right}'+color.RESET)
 
