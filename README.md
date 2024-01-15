@@ -16,5 +16,5 @@ conda create -n tpod python=3.8 -y
 ```
 
 ```bash
-conda activate cnncls
+conda activate tpod
 ```
