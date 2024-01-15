@@ -124,7 +124,7 @@ class Profile:
                 print(color.GREEN+f"\nProfile deleted '{filename}' deleted successfully."+color.RESET)
                 logging.info(f"Profile deleted '{filename}' deleted successfully.")
             else:
-                print(f"Profile - '{filename}' not found.")
+                print(color.RED+f"Profile - '{filename}' not found."+color.RESET)
         except Exception as e:
             raise CustomException(e, sys)
         

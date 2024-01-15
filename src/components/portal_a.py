@@ -103,9 +103,9 @@ def fight(player_name, player_hints, player_level, player_health, player_armour,
                     player_health = 0
             
                 elif choice == 3:
-                    #profile.save_player_data(player_name, player_hints, player_level, player_health, arm)
-                    #exit()
-                    print("Exit")
+                    profile.save_player_data(player_name, player_hints, player_level, player_health, arm)
+                    exit()
+                    #print("Exit")
             except ValueError:
                             print(color.RED+"\nPlease enter a valid number for the choice.")
                             print(color.BLUE+"Redirecting you to main menu"+color.RESET)
@@ -155,10 +155,10 @@ def play_level(player_name, player_hints, player_level, player_health, armour, b
                                 solve_riddle(level, riddle, ans[level - 1][idx])
                             elif choice == 2:
                                 if current_hints > 0:
+                                    current_hints -= 1
                                     print(color.GREEN + f"\nProfile choosen name: {name}" + color.RESET)
                                     print(color.GREEN + f"{name}'s Hints left: {current_hints}" + color.RESET)
                                     print(color.GREEN +f"\nI hope this hint might help:- {portal.hints[level - 1][idx]}\n" + color.RESET)
-                                    current_hints -= 1
                                     solve_riddle(level, riddle, ans[level - 1][idx])
                                 else:
                                     print(color.RED+"\nNo hints left"+color.RESET)
@@ -180,8 +180,8 @@ def play_level(player_name, player_hints, player_level, player_health, armour, b
                 print(color.GREEN + f"{name}'s Armour: {current_armour}" + color.RESET)
                 print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
                 monster = create_monster()
-                fight(name, current_hints, current_level, current_health, current_armour, monster)
                 profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
+                fight(name, current_hints, current_level, current_health, current_armour, monster)
                 current_level += 1
                 break    
             logging.info(f"Player {player_name} proceeding to level ")  

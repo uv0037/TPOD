@@ -181,8 +181,8 @@ def play_level_b(player_name, player_hints, player_level, player_health, armour,
                 print(color.GREEN + f"{name}'s Armour: {current_armour}" + color.RESET)  
                 print(color.PURPLE+f"Monster level {current_level}. Prepare for a fight!"+color.RESET)
                 monster = create_monster()
-                fight(name, current_hints, current_level, current_health, current_armour, monster)
                 profile.save_player_data(name, current_hints, level, current_health, current_armour, portal_b_stump)
+                fight(name, current_hints, current_level, current_health, current_armour, monster)
                 current_level += 1
                 break    
             logging.info(f"Player {player_name} proceeding to level ")  

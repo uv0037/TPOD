@@ -31,9 +31,18 @@ class Player:
         self.player_level = level
         self.player_health = health
         self.player_armour = armour
+        self.update_profile(name, hints, level, health, armour)
+
+    def update_profile(self, name, hints, level, health, armour):
+        self.player_name = name
+        self.player_hints = hints
+        self.player_level = level
+        self.player_health = health
+        self.player_armour = armour
 
 
 player = Player(profile_data['Name'], profile_data['Hints'], profile_data['Level'], profile_data['Health'], profile_data['Armour'])
+
 
 
 def profile_details(name, hints, level, health):
@@ -43,7 +52,7 @@ def profile_details(name, hints, level, health):
     print(color.GREEN + f"{name}'s health: {health}" + color.RESET)
 
 
-profile_details(player.player_name, player.player_hints, player.player_level, player.player_health)
+profile_details(player.player_name, player.player_hints, player.player_level, player.player_health)  #display player profile stats
 
 
 def main_menu():
@@ -60,11 +69,11 @@ def main_menu():
                 break
             elif case == 2:
                 profile.select_profile()
-                profile_data = profile.load_profile(profile.profile_selected)
-                player_new = Player(profile_data['Name'], profile_data['Hints'], profile_data['Level'],
-                                    profile_data['Health'])
-                profile_details(player_new.player_name, player_new.player_hints, player_new.player_level,
-                                player_new.player_health)
+                profile_data_new = profile.load_profile(profile.profile_selected)
+                player.update_profile(profile_data_new['Name'], profile_data_new['Hints'], profile_data_new['Level'],
+                                    profile_data_new['Health'], profile_data_new['Armour'])  #update the variables and return them.
+                profile_details(player.player_name, player.player_hints, player.player_level,
+                                player.player_health)
                 main_menu()
                 break
             elif case == 3:
@@ -165,7 +174,7 @@ def war_gear():
 
 
 def new_game():
-    print(color.RED + "  " * 22 + "*********  PORTALS  *********" + color.RESET)
+    print(color.RED + "  " * 22 + "*********  PORTALS  *********" + color.RESET)    #game starts giving you options to start with.
     print(color.YELLOW + "\n1. PORTAL A" + color.RESET)
     print(color.YELLOW + "2. PORTAL B" + color.RESET)
     print(color.YELLOW + "3. GO TO MAIN MENU" + color.RESET)
@@ -186,13 +195,13 @@ def new_game():
             words = sentence_a.split()
             for word in words:
                 print(color.GREEN + word + color.RESET, end=' ', flush=True)
-                time.sleep(0.5)
+                time.sleep(0.2)
             
             player.player_hints = 3
             player.player_level = 1
             player.player_health = 100
             b = 0
-            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)
+            play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)  #traverse to portal B 
         elif portal_choice == 2:
             draw_circle(10)
             print("  " * 15, end=' ')
@@ -206,28 +215,29 @@ def new_game():
             words = sentence_b.split()
             for word in words:
                 print(color.GREEN + word + color.RESET, end=' ', flush=True)
-                time.sleep(0.5)
+                time.sleep(0.2)
             
             player.player_hints = 3
             player.player_level = 1
             player.player_health = 100
             b = 1
-            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, b)  #traverse to portal B 
         elif portal_choice == 3:
             main_menu()
         elif portal_choice == 4:
             exit()
         else:
-            print("\n Please enter correct choice")
+            new_game()
+    except ValueError:
+        print(color.RED + "\nPlease enter a valid number for the choice.")
+        print(color.BLUE + "Redirecting you to previous menu" + color.RESET)
+        print(color.GREY + "**" * 20 + "\n" + color.RESET)
 
-    except Exception as e:
-        CustomException(e, sys)
 
-
-def resume():
+def resume():               #resume from the level the game was saved
     try:
         if profile_data.get('Portal_b_stump') == 1:
-            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 1)
+            play_level_b(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 1)   
         elif profile_data.get('Portal_b_stump') == 0:
             play_level(player.player_name, player.player_hints, player.player_level, player.player_health, player.player_armour, 0)
         else:
@@ -235,6 +245,6 @@ def resume():
     except Exception as e:
         CustomException(e, sys)
 
-
-main_menu()
+if __name__=="__main__":
+    main_menu()
 
